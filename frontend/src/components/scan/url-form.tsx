@@ -65,6 +65,9 @@ export default function UrlForm({ className, variant = "default", hideLabel = fa
         if (variant === "hero" && NODE_API_BASE) {
           const simpleRes = await scanUrlSimple(normalizeUrl(url))
           setSimple(simpleRes)
+          try {
+            ;(window as any).ALSSShield?.pulse?.(simpleRes.status?.toLowerCase() === "safe" ? "safe" : "danger")
+          } catch {}
         } else {
           const data = await scanUrl(normalizeUrl(url))
           setResult(data)
