@@ -124,10 +124,18 @@ export default function UrlForm({ className, variant = "default", hideLabel = fa
             onChange={(e) => setUrl(e.target.value)}
             aria-invalid={url.length > 0 && !valid}
             autoComplete="off"
-            className={cn("md:flex-1", variant === "hero" && "h-11 md:h-12 text-base")}
+            className={cn(
+              "md:flex-1",
+              variant === "hero" &&
+                "h-11 md:h-12 text-base bg-[#00131a]/60 border-[#00C2FF]/30 placeholder:text-[#7ccfff] text-[#E6F9FF] focus-visible:ring-[#00C2FF]"
+            )}
           />
-          <Button type="submit" disabled={!valid || submitting} className={cn("md:w-40", variant === "hero" && "h-11 md:h-12") }>
-            {submitting ? "Scanning..." : "Scan"}
+          <Button type="submit" disabled={!valid || submitting} className={cn(
+            "md:w-40",
+            variant === "hero" &&
+              "h-11 md:h-12 bg-transparent border border-[#00C2FF]/60 text-[#E6F9FF] hover:border-[#00C2FF] hover:shadow-[0_0_30px_rgba(0,194,255,0.5)]"
+          ) }>
+            {submitting ? "Scanning..." : variant === "hero" ? "Scan Now" : "Scan"}
           </Button>
         </div>
         <div aria-live="polite" className="sr-only">{submitting ? "Scanning in progress" : "Ready"}</div>
