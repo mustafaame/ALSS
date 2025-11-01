@@ -26,10 +26,10 @@ export default function Navbar() {
 
         {/* Center: menu */}
         <nav className="hidden md:flex items-center justify-center gap-8">
-          <Link href="/" className={linkCls(isHome)}>Home</Link>
-          <Link href="/learn" className={linkCls(pathname === "/learn")}>Learn</Link>
-          <Link href="/docs" className={linkCls(pathname === "/docs")}>Docs</Link>
-          <Link href="/contact" className={linkCls(pathname === "/contact")}>Contact</Link>
+          <Link href="#home" className={linkCls(isHome)}>Home</Link>
+          <Link href="#learn" className={linkCls(false)}>Learn</Link>
+          <Link href="#docs" className={linkCls(false)}>Docs</Link>
+          <Link href="#contact" className={linkCls(false)}>Contact</Link>
         </nav>
 
         {/* Right: mobile menu button */}
@@ -50,10 +50,10 @@ export default function Navbar() {
               </Button>
             </div>
             <div className="mt-6 flex flex-col gap-4">
-              <Link href="/" onClick={() => setOpen(false)} className={isHome ? "text-[#00C2FF]" : "text-foreground/90"}>Home</Link>
-              <Link href="/learn" onClick={() => setOpen(false)} className={pathname === "/learn" ? "text-[#00C2FF]" : "text-foreground/90"}>Learn</Link>
-              <Link href="/docs" onClick={() => setOpen(false)} className={pathname === "/docs" ? "text-[#00C2FF]" : "text-foreground/90"}>Docs</Link>
-              <Link href="/contact" onClick={() => setOpen(false)} className={pathname === "/contact" ? "text-[#00C2FF]" : "text-foreground/90"}>Contact</Link>
+              <Link href="#home" onClick={() => setOpen(false)} className="text-[#00C2FF]">Home</Link>
+              <Link href="#learn" onClick={() => setOpen(false)} className="text-foreground/90">Learn</Link>
+              <Link href="#docs" onClick={() => setOpen(false)} className="text-foreground/90">Docs</Link>
+              <Link href="#contact" onClick={() => setOpen(false)} className="text-foreground/90">Contact</Link>
             </div>
           </div>
         </motion.div>
