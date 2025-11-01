@@ -41,18 +41,29 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
     let mode: "calm" | "warn" | "danger" = "calm"
     const mouse = { x: -9999, y: -9999, f: 0 }
 
-    // Fiber nodes
-    const N = reduceMotion ? 80 : 160
-    const nodes: { x: number; y: number; a: number; r: number; s: number }[] = []
+    // Fiber nodes (two color bands for teal and purple), plus subtle star field
+    const N = reduceMotion ? 120 : 240
+    type Node = { x: number; y: number; a: number; r: number; s: number }
+    const nodes: Node[] = []
+    const nodes2: Node[] = []
     for (let i = 0; i < N; i++) {
-      const a = Math.random() * Math.PI * 2
-      const r = Math.random() * Math.min(w, h) * 0.48 + 20
-      nodes.push({ x: center.x + Math.cos(a) * r, y: center.y + Math.sin(a) * r, a, r, s: 0.0008 + Math.random() * 0.0018 })
+      const a1 = Math.random() * Math.PI * 2
+      const r1 = Math.random() * Math.min(w, h) * 0.5 + 18
+      nodes.push({ x: center.x + Math.cos(a1) * r1, y: center.y + Math.sin(a1) * r1, a: a1, r: r1, s: 0.0008 + Math.random() * 0.0018 })
+      const a2 = Math.random() * Math.PI * 2
+      const r2 = Math.random() * Math.min(w, h) * 0.55 + 24
+      nodes2.push({ x: center.x + Math.cos(a2) * r2, y: center.y + Math.sin(a2) * r2, a: a2, r: r2, s: 0.0006 + Math.random() * 0.0014 })
     }
+    const stars = Array.from({ length: reduceMotion ? 60 : 120 }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      tw: Math.random() * 1.0 + 0.2,
+    }))
 
     // Absorption orb state
     let orbActive = false
     let orb = { x: 0, y: 0, life: 0, duration: 900 }
+    let shockT = 0
 
     // Expose API on window
     ;(window as any).ALSSCore = (window as any).ALSSCore || {}
@@ -116,6 +127,20 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
       ctx.ellipse(center.x, center.y, rX * 1.2, rY * 1.2, 0, 0, Math.PI * 2)
       ctx.fill()
 
+      // Neon ring
+      ctx.save()
+      ctx.globalCompositeOperation = 'lighter'
+      const ring = ctx.createLinearGradient(center.x - rX, center.y, center.x + rX, center.y)
+      if (mode === 'danger') { ring.addColorStop(0, 'rgba(255,64,64,0.28)'); ring.addColorStop(1, 'rgba(255,128,128,0.18)') }
+      else if (mode === 'warn') { ring.addColorStop(0, 'rgba(255,196,64,0.26)'); ring.addColorStop(1, 'rgba(255,224,128,0.16)') }
+      else { ring.addColorStop(0, 'rgba(0,224,184,0.30)'); ring.addColorStop(1, 'rgba(25,245,159,0.18)') }
+      ctx.strokeStyle = ring
+      ctx.lineWidth = Math.max(1.5, rX * 0.06)
+      ctx.beginPath()
+      ctx.ellipse(center.x, center.y, rX * 1.05, rY * 1.05, 0, 0, Math.PI * 2)
+      ctx.stroke()
+      ctx.restore()
+
       // Focus glow (pointer proximity)
       if (mouse.f > 0.02) {
         ctx.save()
@@ -144,21 +169,21 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
       ctx.fill()
     }
 
-    function drawFibers(t: number) {
+    function drawFibersBand(t: number, arr: Node[], band: 'teal' | 'purple') {
       ctx.lineWidth = 1
-      for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i]
+      for (let i = 0; i < arr.length; i++) {
+        const n = arr[i]
         n.a += n.s
         const jitter = mode === 'danger' ? 0.12 : mode === 'warn' ? 0.06 : 0.02
         n.r += Math.sin(t * 0.0003 + i) * jitter
         n.x = center.x + Math.cos(n.a) * n.r
         n.y = center.y + Math.sin(n.a) * n.r
 
-        // color drift based on mode
-        let hueBase = 160
-        let hueAmp = 40
-        if (mode === 'warn') { hueBase = 40; hueAmp = 20 }
-        if (mode === 'danger') { hueBase = 0; hueAmp = 18 }
+        // color drift based on band + mode
+        let hueBase = band === 'teal' ? 160 : 280
+        let hueAmp = band === 'teal' ? 40 : 28
+        if (mode === 'warn') { hueBase = band === 'teal' ? 40 : 55; hueAmp = 18 }
+        if (mode === 'danger') { hueBase = band === 'teal' ? 0 : 345; hueAmp = 14 }
         const hue = hueBase + Math.sin((t * 0.0002) + i * 0.13) * hueAmp
         const alpha = mode === 'danger' ? 0.16 : mode === 'warn' ? 0.14 : 0.12
         ctx.strokeStyle = `hsla(${hue}, 80%, 55%, ${alpha})`
@@ -178,6 +203,39 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
       }
     }
 
+    function drawFibers(t: number) {
+      drawFibersBand(t, nodes, 'teal')
+      drawFibersBand(t, nodes2, 'purple')
+    }
+
+    function drawStars(t: number) {
+      ctx.save()
+      ctx.globalCompositeOperation = 'screen'
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i]
+        const flick = (Math.sin(t * 0.002 + i) + 1) * 0.5
+        ctx.fillStyle = `rgba(255,255,255,${0.04 + 0.06 * flick * s.tw})`
+        ctx.fillRect(s.x, s.y, 1, 1)
+      }
+      ctx.restore()
+    }
+
+    function drawShock() {
+      if (shockT <= 0) return
+      shockT += 0.03
+      if (shockT >= 1) { shockT = 0; return }
+      const R = Math.min(w, h) * (0.12 + shockT * 0.6)
+      ctx.save()
+      ctx.globalCompositeOperation = 'lighter'
+      const col = mode === 'danger' ? '255,64,64' : mode === 'warn' ? '255,196,64' : '0,224,184'
+      ctx.strokeStyle = `rgba(${col},${0.25 * (1 - shockT)})`
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      ctx.ellipse(center.x, center.y, R, R * 0.62, 0, 0, Math.PI * 2)
+      ctx.stroke()
+      ctx.restore()
+    }
+
     function drawOrb(t: number) {
       if (!orbActive) return
       const toCenter = Math.hypot(center.x - orb.x, center.y - orb.y)
@@ -195,6 +253,7 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
 
       if (toCenter < 8) {
         orbActive = false
+        shockT = 0.001
       }
     }
 
@@ -204,9 +263,11 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
       ctx.fillStyle = "rgba(11,15,20,0.35)"
       ctx.fillRect(0, 0, w, h)
 
+      drawStars(t)
       drawFibers(t)
       drawCore(t)
       drawOrb(t)
+      drawShock()
 
       raf = reduceMotion ? 0 : requestAnimationFrame(tick)
     }
