@@ -20,13 +20,13 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          <Link href="/" className="text-sm text-foreground/80 hover:text-foreground">Home</Link>
+          <Link href="/" className={isHome ? "text-sm text-[#00C2FF] drop-shadow-[0_0_10px_rgba(0,194,255,0.6)]" : "text-sm text-foreground/80 hover:text-foreground"}>Home</Link>
           <Link href="/#features" className="text-sm text-foreground/80 hover:text-foreground">Features</Link>
           <Link href="/#pricing" className="text-sm text-foreground/80 hover:text-foreground">Pricing</Link>
           <Link href="/#support" className="text-sm text-foreground/80 hover:text-foreground">Support</Link>
-          <Link href="/settings" className="text-sm text-foreground/80 hover:text-foreground">Login</Link>
+          <Link href="/settings" className={pathname === "/settings" ? "text-sm text-[#00C2FF] drop-shadow-[0_0_10px_rgba(0,194,255,0.6)]" : "text-sm text-foreground/80 hover:text-foreground"}>Login</Link>
           <Button size="sm" className="ml-2" asChild>
-            <Link href="/learn">Learn</Link>
+            <Link href="/learn" className={pathname === "/learn" ? "text-[#00C2FF]" : undefined}>Learn</Link>
           </Button>
         </nav>
 
@@ -48,13 +48,13 @@ export default function Navbar() {
               </Button>
             </div>
             <div className="mt-6 flex flex-col gap-4">
-              <Link href="/" onClick={() => setOpen(false)} className="text-foreground/90">Home</Link>
+              <Link href="/" onClick={() => setOpen(false)} className={isHome ? "text-[#00C2FF]" : "text-foreground/90"}>Home</Link>
               <Link href="/#features" onClick={() => setOpen(false)} className="text-foreground/90">Features</Link>
               <Link href="/#pricing" onClick={() => setOpen(false)} className="text-foreground/90">Pricing</Link>
               <Link href="/#support" onClick={() => setOpen(false)} className="text-foreground/90">Support</Link>
-              <Link href="/settings" onClick={() => setOpen(false)} className="text-foreground/90">Login</Link>
+              <Link href="/settings" onClick={() => setOpen(false)} className={pathname === "/settings" ? "text-[#00C2FF]" : "text-foreground/90"}>Login</Link>
               <Button className="mt-2" asChild>
-                <Link href="/learn" onClick={() => setOpen(false)}>Learn</Link>
+                <Link href="/learn" onClick={() => setOpen(false)} className={pathname === "/learn" ? "text-[#00C2FF]" : undefined}>Learn</Link>
               </Button>
             </div>
           </div>
