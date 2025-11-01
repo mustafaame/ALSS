@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark cyber palette */
+  --background: 213 29% 6%; /* #0b0f14 */
+  --foreground: 210 40% 98%;
+
+  --muted: 215 25% 14%;
+  --muted-foreground: 215 15% 70%;
+
+  --popover: 213 29% 6% / 0.85;
+  --popover-foreground: 210 40% 98%;
+
+  /* Glass cards */
+  --card: 213 23% 10% / 0.6;
+  --card-foreground: 210 40% 98%;
+
+  --border: 215 26% 18%;
+  --input: 215 26% 18%;
+
+  /* Brand */
+  --primary: 156 92% 53%; /* #19f59f */
+  --primary-foreground: 156 100% 7%;
+
+  --secondary: 215 25% 14% / 0.6;
+  --secondary-foreground: 210 40% 98%;
+
+  --accent: 169 100% 44%; /* #00e0b8 */
+  --accent-foreground: 169 100% 8%;
+
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 210 40% 98%;
+
+  --ring: 156 92% 53%;
+}
+
+.dark {
+  --background: 213 29% 6%;
+  --foreground: 210 40% 98%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+}
+
+.custom-container {
+  @apply container px-4 md:px-6;
+}
+
+.glass {
+  @apply bg-white/5 backdrop-blur border border-white/10;
+}
+
+@media print {
+  @page { size: A4; margin: 12mm; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .break-before-page { break-before: page; }
+  .break-after-page { break-after: page; }
+  html, body { background: hsl(var(--background)) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  header, footer, .fixed, .sticky { display: none !important; }
+  .report { background: hsl(var(--background)) !important; color: hsl(var(--foreground)) !important; }
+  .report a { color: hsl(var(--foreground)) !important; text-decoration: none; }
+  .report .bg-card { background: hsl(var(--card)) !important; }
+  .report .glass { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.15) !important; }
+  .report .border-border { border-color: rgba(255,255,255,0.18) !important; }
+  .report .text-muted-foreground { color: rgba(255,255,255,0.75) !important; }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-shimmer { animation: none !important; }
+}

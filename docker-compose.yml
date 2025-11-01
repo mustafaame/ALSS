@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: alss_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-alss}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-alss_password}
+      POSTGRES_DB: ${POSTGRES_DB:-alss_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - alss_net
+
+  backend:
+    build: ./backend
+    container_name: alss_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://alss:alss_password@postgres:5432/alss_db}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    depends_on:
+      - postgres
+    ports:
+      - "8789:8789"
+    networks:
+      - alss_net
+
+  frontend:
+    build: ./frontend
+    container_name: alss_frontend
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8789}
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    networks:
+      - alss_net
+
+volumes:
+  postgres_data:
+
+networks:
+  alss_net:
