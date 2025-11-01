@@ -40,7 +40,7 @@ function isLikelyUrl(value: string): boolean {
   }
 }
 
-export default function UrlForm() {
+export default function UrlForm({ className, variant = "default", hideLabel = false }: { className?: string; variant?: "default" | "hero"; hideLabel?: boolean }) {
   const router = useRouter()
   const [url, setUrl] = useState("")
   const [submitting, setSubmitting] = useState(false)
@@ -89,7 +89,14 @@ export default function UrlForm() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
-      className={cn("glass rounded-xl p-6 relative overflow-hidden", submitting && "ring-1 ring-accent/40")}
+      className={cn(
+        variant === "hero"
+          ? "rounded-xl border border-accent/30 bg-background/70 backdrop-blur-md p-4 md:p-5 shadow-[0_0_40px_rgba(25,245,159,0.12)]"
+          : "glass rounded-xl p-6",
+        "relative overflow-hidden",
+        submitting && "ring-1 ring-accent/40",
+        className,
+      )}
       aria-busy={submitting}
     >
       {submitting && (
@@ -100,19 +107,19 @@ export default function UrlForm() {
         </div>
       )}
       <div className="space-y-2">
-        <Label htmlFor="scan-url">Enter a URL to scan</Label>
-        <div className="flex flex-col gap-3 md:flex-row">
+        <Label htmlFor="scan-url" className={hideLabel ? "sr-only" : undefined}>Enter a URL to scan</Label>
+        <div className={cn("flex flex-col gap-3 md:flex-row", variant === "hero" && "items-stretch") }>
           <Input
             id="scan-url"
             name="url"
-            placeholder="https://example.com"
+            placeholder={variant === "hero" ? "Paste your suspicious link here..." : "https://example.com"}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             aria-invalid={url.length > 0 && !valid}
             autoComplete="off"
-            className="md:flex-1"
+            className={cn("md:flex-1", variant === "hero" && "h-11 md:h-12 text-base")}
           />
-          <Button type="submit" disabled={!valid || submitting} className="md:w-40">
+          <Button type="submit" disabled={!valid || submitting} className={cn("md:w-40", variant === "hero" && "h-11 md:h-12") }>
             {submitting ? "Scanning..." : "Scan"}
           </Button>
         </div>
