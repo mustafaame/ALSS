@@ -80,7 +80,7 @@ const config: Config = {
         glow: "glow-pulse 2.5s ease-in-out infinite",
         shimmer: "shimmer 6s linear infinite",
         particles: "particles 3.5s ease-in-out infinite",
-        beam: "beam 12s linear infinite",
+        beam: "beam 3s linear infinite",
         flicker: "flicker 4.5s ease-in-out infinite",
       },
       boxShadow: {
