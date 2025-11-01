@@ -38,6 +38,7 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
     ctx.scale(dpr, dpr)
 
     const center = { x: w / 2, y: h / 2 }
+    let mode: "calm" | "warn" | "danger" = "calm"
     const mouse = { x: -9999, y: -9999, f: 0 }
 
     // Fiber nodes
@@ -55,6 +56,7 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
 
     // Expose API on window
     ;(window as any).ALSSCore = (window as any).ALSSCore || {}
+    ;(window as any).ALSSCore.setMode = (m: "calm" | "warn" | "danger") => { mode = m }
     ;(window as any).ALSSCore.absorb = () => {
       if (!el) return Promise.resolve()
       const angle = Math.random() * Math.PI * 2
@@ -106,8 +108,9 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
 
       // Glow
       const g = ctx.createRadialGradient(center.x, center.y, 2, center.x, center.y, rX * 1.6)
+      const edge = mode === 'danger' ? 'rgba(239,68,68,0.08)' : mode === 'warn' ? 'rgba(245,158,11,0.08)' : 'rgba(25,245,159,0.05)'
       g.addColorStop(0, "rgba(255,255,255,0.9)")
-      g.addColorStop(1, "rgba(25,245,159,0.05)")
+      g.addColorStop(1, edge)
       ctx.fillStyle = g
       ctx.beginPath()
       ctx.ellipse(center.x, center.y, rX * 1.2, rY * 1.2, 0, 0, Math.PI * 2)
@@ -117,7 +120,8 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
       if (mouse.f > 0.02) {
         ctx.save()
         ctx.globalCompositeOperation = 'lighter'
-        ctx.fillStyle = `rgba(0,224,184,${0.12 * mouse.f})`
+        const fg = mode === 'danger' ? '255,64,64' : mode === 'warn' ? '255,196,64' : '0,224,184'
+        ctx.fillStyle = `rgba(${fg},${0.12 * mouse.f})`
         ctx.beginPath()
         ctx.ellipse(center.x, center.y, rX * (1.4 + mouse.f * 0.6), rY * (1.4 + mouse.f * 0.6), 0, 0, Math.PI * 2)
         ctx.fill()
@@ -145,13 +149,19 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i]
         n.a += n.s
-        n.r += Math.sin(t * 0.0003 + i) * 0.02
+        const jitter = mode === 'danger' ? 0.12 : mode === 'warn' ? 0.06 : 0.02
+        n.r += Math.sin(t * 0.0003 + i) * jitter
         n.x = center.x + Math.cos(n.a) * n.r
         n.y = center.y + Math.sin(n.a) * n.r
 
-        // color drift between teal/purple/green
-        const hue = 160 + Math.sin((t * 0.0002) + i * 0.13) * 40 // 120..200
-        ctx.strokeStyle = `hsla(${hue}, 80%, 55%, 0.12)`
+        // color drift based on mode
+        let hueBase = 160
+        let hueAmp = 40
+        if (mode === 'warn') { hueBase = 40; hueAmp = 20 }
+        if (mode === 'danger') { hueBase = 0; hueAmp = 18 }
+        const hue = hueBase + Math.sin((t * 0.0002) + i * 0.13) * hueAmp
+        const alpha = mode === 'danger' ? 0.16 : mode === 'warn' ? 0.14 : 0.12
+        ctx.strokeStyle = `hsla(${hue}, 80%, 55%, ${alpha})`
         ctx.beginPath()
         ctx.moveTo(n.x, n.y)
         const cx = (n.x + center.x) / 2 + Math.sin(t * 0.001 + i) * 12
@@ -160,7 +170,8 @@ export default function ALSSCore({ className = "" }: { className?: string }) {
         ctx.stroke()
 
         // tiny node glow
-        ctx.fillStyle = `hsla(${hue}, 90%, 65%, 0.18)`
+        const na = mode === 'danger' ? 0.22 : 0.18
+        ctx.fillStyle = `hsla(${hue}, 90%, 65%, ${na})`
         ctx.beginPath()
         ctx.arc(n.x, n.y, 0.8, 0, Math.PI * 2)
         ctx.fill()
