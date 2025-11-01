@@ -122,7 +122,7 @@ export default function UrlForm({ className, variant = "default", hideLabel = fa
           <Input
             id="scan-url"
             name="url"
-            placeholder={variant === "hero" ? "Paste your suspicious link here..." : "https://example.com"}
+            placeholder={variant === "hero" ? "Enter a link to analyze…" : "https://example.com"}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             aria-invalid={url.length > 0 && !valid}
