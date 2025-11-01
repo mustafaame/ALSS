@@ -35,6 +35,14 @@ export default function ResultsPage() {
     }
   }, [])
 
+  // T6: map threat score to ALSSCore visual mode (if homepage canvas is mounted)
+  useEffect(() => {
+    if (!data) return
+    const s = data.score ?? 0
+    const mode = s >= 60 ? "danger" : s >= 20 ? "warn" : "calm"
+    try { (window as any).ALSSCore?.setMode?.(mode) } catch {}
+  }, [data])
+
   useEffect(() => {
     const el = insightsRef.current
     if (!el) return
