@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { scanUrl, type URLScanResult, API_BASE } from "@/lib/api"
+import { scanUrl, type URLScanResult, API_BASE, scanUrlSimple, NODE_API_BASE, type SimpleScanResponse } from "@/lib/api"
 import { useRouter } from "next/navigation"
 import { addUrlHistory } from "@/lib/history"
 import { ensureAnonAuth, logScanResult, firebaseEnabled } from "@/lib/firebase"
@@ -45,6 +45,7 @@ export default function UrlForm({ className, variant = "default", hideLabel = fa
   const [url, setUrl] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState<URLScanResult | null>(null)
+  const [simple, setSimple] = useState<SimpleScanResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
   const valid = useMemo(() => isLikelyUrl(url), [url])
 
@@ -55,24 +56,30 @@ export default function UrlForm({ className, variant = "default", hideLabel = fa
       setSubmitting(true)
       setError(null)
       setResult(null)
+      setSimple(null)
       try {
         try {
           // Trigger organic orb absorption animation (non-blocking)
           ;(window as any).ALSSCore?.absorb?.()
         } catch {}
-        const data = await scanUrl(normalizeUrl(url))
-        setResult(data)
-        addUrlHistory(data)
-        try {
-          if (firebaseEnabled) {
-            await ensureAnonAuth()
-            await logScanResult("url", { target: data.http?.final_url || data.normalized_url || data.input_url, score: data.score, level: data.level })
+        if (variant === "hero" && NODE_API_BASE) {
+          const simpleRes = await scanUrlSimple(normalizeUrl(url))
+          setSimple(simpleRes)
+        } else {
+          const data = await scanUrl(normalizeUrl(url))
+          setResult(data)
+          addUrlHistory(data)
+          try {
+            if (firebaseEnabled) {
+              await ensureAnonAuth()
+              await logScanResult("url", { target: data.http?.final_url || data.normalized_url || data.input_url, score: data.score, level: data.level })
+            }
+          } catch {}
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem("alss:lastScan", JSON.stringify(data))
           }
-        } catch {}
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("alss:lastScan", JSON.stringify(data))
+          router.push("/results")
         }
-        router.push("/results")
       } catch (err: any) {
         setError(err?.message || "Failed to scan")
       } finally {
@@ -127,10 +134,21 @@ export default function UrlForm({ className, variant = "default", hideLabel = fa
         {url.length > 0 && !valid && (
           <p className="text-xs text-destructive">Please enter a valid URL.</p>
         )}
-        <p className="text-xs text-muted-foreground">Backend: {API_BASE}</p>
+        <p className="text-xs text-muted-foreground">Backend: {NODE_API_BASE || API_BASE}</p>
       </div>
       {error && (
         <p className="mt-4 text-sm text-destructive">{error}</p>
+      )}
+      {simple && (
+        <Card className="mt-6 border border-[#00C2FF]/30 bg-[#00131a]/50 backdrop-blur-lg shadow-[0_0_40px_rgba(0,194,255,0.25)]">
+          <CardHeader>
+            <CardTitle className="text-lg">Scan Result</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm">
+            <div className="text-[#00C2FF]">Status: {simple.status}</div>
+            <div className="text-muted-foreground">{simple.details}</div>
+          </CardContent>
+        </Card>
       )}
       {result && (
         <Card className="mt-6">
