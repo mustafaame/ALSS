@@ -20,23 +20,13 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          <Link href="/#scan" className="text-sm text-foreground/80 hover:text-foreground">
-            Scan
-          </Link>
-          <Link href="/learn" className="text-sm text-foreground/80 hover:text-foreground flex items-center gap-1">
-            <Book className="h-4 w-4" /> Learn
-          </Link>
-          <Link href="/history" className="text-sm text-foreground/80 hover:text-foreground flex items-center gap-1">
-            <History className="h-4 w-4" /> History
-          </Link>
-          <Link href="/settings" className="text-sm text-foreground/80 hover:text-foreground flex items-center gap-1">
-            <Settings className="h-4 w-4" /> Settings
-          </Link>
-          <Link href="/docs" className="text-sm text-foreground/80 hover:text-foreground flex items-center gap-1">
-            <Book className="h-4 w-4" /> Docs
-          </Link>
+          <Link href="/" className="text-sm text-foreground/80 hover:text-foreground">Home</Link>
+          <Link href="/#features" className="text-sm text-foreground/80 hover:text-foreground">Features</Link>
+          <Link href="/#pricing" className="text-sm text-foreground/80 hover:text-foreground">Pricing</Link>
+          <Link href="/#support" className="text-sm text-foreground/80 hover:text-foreground">Support</Link>
+          <Link href="/settings" className="text-sm text-foreground/80 hover:text-foreground">Login</Link>
           <Button size="sm" className="ml-2" asChild>
-            <Link href="/#scan">Get Started</Link>
+            <Link href="/learn">Learn</Link>
           </Button>
         </nav>
 
@@ -58,23 +48,13 @@ export default function Navbar() {
               </Button>
             </div>
             <div className="mt-6 flex flex-col gap-4">
-              <Link href="/#scan" onClick={() => setOpen(false)} className="text-foreground/90">
-                Scan
-              </Link>
-              <Link href="/learn" onClick={() => setOpen(false)} className="text-foreground/90">
-                Learn
-              </Link>
-              <Link href="/history" onClick={() => setOpen(false)} className="text-foreground/90">
-                History
-              </Link>
-              <Link href="/settings" onClick={() => setOpen(false)} className="text-foreground/90">
-                Settings
-              </Link>
-              <Link href="/docs" onClick={() => setOpen(false)} className="text-foreground/90">
-                Docs
-              </Link>
+              <Link href="/" onClick={() => setOpen(false)} className="text-foreground/90">Home</Link>
+              <Link href="/#features" onClick={() => setOpen(false)} className="text-foreground/90">Features</Link>
+              <Link href="/#pricing" onClick={() => setOpen(false)} className="text-foreground/90">Pricing</Link>
+              <Link href="/#support" onClick={() => setOpen(false)} className="text-foreground/90">Support</Link>
+              <Link href="/settings" onClick={() => setOpen(false)} className="text-foreground/90">Login</Link>
               <Button className="mt-2" asChild>
-                <Link href="/#scan" onClick={() => setOpen(false)}>Get Started</Link>
+                <Link href="/learn" onClick={() => setOpen(false)}>Learn</Link>
               </Button>
             </div>
           </div>
