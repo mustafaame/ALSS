@@ -7,61 +7,36 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import UrlForm from "@/components/scan/url-form"
 import FileForm from "@/components/scan/file-form"
-import { Shield, FileText, Sparkles, CheckCircle2, ShieldAlert, Bug, Zap } from "lucide-react"
-import NeonShield from "@/components/visuals/neon-shield"
+import { Shield, FileText, Sparkles, CheckCircle2 } from "lucide-react"
 import NeonParticles from "@/components/visuals/neon-particles"
+import ShieldCanvas from "@/components/ShieldCanvas"
+import ScanForm from "@/components/ScanForm"
 
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="relative overflow-hidden rounded-none border-none p-0 min-h-screen flex items-center">
+      <section className="relative overflow-hidden rounded-none border-none p-0 min-h-screen flex items-center justify-center bg-hero-gradient">
         <div className="absolute inset-0 -z-10">
-          {/* Neon shards background */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6),transparent_70%)]" aria-hidden />
-          <div className="absolute inset-0 [background-image:repeating-linear-gradient(45deg,rgba(0,194,255,0.06)_0px,rgba(0,194,255,0.06)_2px,transparent_2px,transparent_8px),repeating-linear-gradient(-45deg,rgba(255,0,255,0.06)_0px,rgba(255,0,255,0.06)_2px,transparent_2px,transparent_10px)] opacity-60" aria-hidden />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,194,255,0.12),transparent_55%)]" aria-hidden />
-          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,194,255,0.12)_0%,transparent_40%,rgba(255,0,255,0.12)_70%,transparent_100%)] [background-size:200%_200%] animate-beam" aria-hidden />
+          <div className="absolute inset-0 bg-noise opacity-[0.35]" aria-hidden />
+          <div className="absolute inset-0 [background:radial-gradient(circle_at_center,rgba(0,194,255,0.12),transparent_55%)]" aria-hidden />
+          <div className="absolute inset-0 [background:linear-gradient(120deg,rgba(0,194,255,0.12)_0%,transparent_40%,rgba(255,0,255,0.12)_70%,transparent_100%)] [background-size:200%_200%] animate-beam" aria-hidden />
           <NeonParticles count={60} />
         </div>
-        <div className="custom-container relative z-10 grid w-full items-center gap-10 py-16 md:grid-cols-2">
-          <div>
-            <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-4xl md:text-5xl font-bold leading-tight">
-              Advanced Link Security Scanner
-            </motion.h1>
-            <p className="mt-3 max-w-2xl text-base md:text-lg text-muted-foreground">
-              AI‑Powered Threat Detection
-            </p>
-            <div className="mt-6 max-w-xl">
-              <UrlForm variant="hero" hideLabel />
-            </div>
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-xl border border-border/60 bg-card/70 p-4 text-center">
-                <Zap className="mx-auto h-5 w-5 text-emerald-400" />
-                <div className="mt-2 text-xs text-muted-foreground">Real‑time Threat Detection</div>
-              </div>
-              <div className="rounded-xl border border-border/60 bg-card/70 p-4 text-center">
-                <ShieldAlert className="mx-auto h-5 w-5 text-emerald-400" />
-                <div className="mt-2 text-xs text-muted-foreground">Phishing Protection</div>
-              </div>
-              <div className="rounded-xl border border-border/60 bg-card/70 p-4 text-center">
-                <Bug className="mx-auto h-5 w-5 text-emerald-400" />
-                <div className="mt-2 text-xs text-muted-foreground">Malware Analysis</div>
-              </div>
-            </div>
-          </div>
-          <div className="relative grid place-items-center">
-            <NeonShield className="w-[60vw] max-w-[420px] md:w-auto" />
+        <div className="relative z-10 flex w-full max-w-5xl flex-col items-center px-6 py-16 text-center">
+          <ShieldCanvas className="w-full" />
+          <motion.h1 initial={{ opacity: 0, y: 10, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.5 }} className="mt-8 font-poppins text-4xl md:text-5xl font-bold text-[#E2E8F0] text-glow-cyan">
+            Advanced Link Security Scanner
+          </motion.h1>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }} className="mt-3 max-w-2xl text-base md:text-lg text-glow-blue text-[#c7d2fe]">
+            AI‑Powered Threat Detection
+          </motion.p>
+          <div className="mt-6 w-full max-w-xl">
+            <ScanForm />
           </div>
         </div>
       </section>
 
-      <section id="scan" className="scroll-mt-24">
-        <UrlForm />
-      </section>
-
-      <section id="file-scan" className="scroll-mt-24">
-        <FileForm />
-      </section>
+      {/* Additional sections removed to honor reset hero spec */}
 
       <section className="grid gap-6 md:grid-cols-3">
         <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35 }}>
