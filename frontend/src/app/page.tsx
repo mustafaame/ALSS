@@ -9,6 +9,7 @@ import UrlForm from "@/components/scan/url-form"
 import FileForm from "@/components/scan/file-form"
 import { Shield, FileText, Sparkles, CheckCircle2, ShieldAlert, Bug, Zap } from "lucide-react"
 import NeonShield from "@/components/visuals/neon-shield"
+import NeonParticles from "@/components/visuals/neon-particles"
 
 export default function HomePage() {
   return (
@@ -17,8 +18,10 @@ export default function HomePage() {
         <div className="absolute inset-0 -z-10">
           {/* Neon shards background */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6),transparent_70%)]" aria-hidden />
-          <div className="absolute inset-0 [background-image:repeating-linear-gradient(45deg,rgba(0,224,184,0.06)_0px,rgba(0,224,184,0.06)_2px,transparent_2px,transparent_8px),repeating-linear-gradient(-45deg,rgba(127,0,255,0.06)_0px,rgba(127,0,255,0.06)_2px,transparent_2px,transparent_10px)] opacity-60" aria-hidden />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(25,245,159,0.12),transparent_55%)]" aria-hidden />
+          <div className="absolute inset-0 [background-image:repeating-linear-gradient(45deg,rgba(0,194,255,0.06)_0px,rgba(0,194,255,0.06)_2px,transparent_2px,transparent_8px),repeating-linear-gradient(-45deg,rgba(255,0,255,0.06)_0px,rgba(255,0,255,0.06)_2px,transparent_2px,transparent_10px)] opacity-60" aria-hidden />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,194,255,0.12),transparent_55%)]" aria-hidden />
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,194,255,0.12)_0%,transparent_40%,rgba(255,0,255,0.12)_70%,transparent_100%)] [background-size:200%_200%] animate-beam" aria-hidden />
+          <NeonParticles count={60} />
         </div>
         <div className="custom-container relative z-10 grid w-full items-center gap-10 py-16 md:grid-cols-2">
           <div>
