@@ -89,8 +89,16 @@ export default function UrlForm() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
-      className={cn("glass rounded-xl p-6")}
+      className={cn("glass rounded-xl p-6 relative overflow-hidden", submitting && "ring-1 ring-accent/40")}
+      aria-busy={submitting}
     >
+      {submitting && (
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-start justify-center">
+          <div className="mt-4 h-14 w-14 rounded-full bg-teal-400/10 backdrop-blur-md border border-teal-300/20 shadow-glow">
+            <div className="h-full w-full animate-ping rounded-full bg-emerald-400/20" />
+          </div>
+        </div>
+      )}
       <div className="space-y-2">
         <Label htmlFor="scan-url">Enter a URL to scan</Label>
         <div className="flex flex-col gap-3 md:flex-row">
@@ -108,6 +116,7 @@ export default function UrlForm() {
             {submitting ? "Scanning..." : "Scan"}
           </Button>
         </div>
+        <div aria-live="polite" className="sr-only">{submitting ? "Scanning in progress" : "Ready"}</div>
         {url.length > 0 && !valid && (
           <p className="text-xs text-destructive">Please enter a valid URL.</p>
         )}
