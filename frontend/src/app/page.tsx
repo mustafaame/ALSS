@@ -7,36 +7,48 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import UrlForm from "@/components/scan/url-form"
 import FileForm from "@/components/scan/file-form"
-import { Shield, FileText, Sparkles, CheckCircle2 } from "lucide-react"
-import ALSSCore from "@/components/visuals/alss-core"
+import { Shield, FileText, Sparkles, CheckCircle2, ShieldAlert, Bug, Zap } from "lucide-react"
+import NeonShield from "@/components/visuals/neon-shield"
 
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="relative overflow-hidden rounded-none border-none p-0 min-h-screen flex items-center justify-center">
+      <section className="relative overflow-hidden rounded-none border-none p-0 min-h-screen flex items-center">
         <div className="absolute inset-0 -z-10">
-          {/* Organic living canvas */}
-          <ALSSCore className="absolute inset-0 opacity-[0.9] pointer-events-none [mix-blend-screen]" />
-          {/* Deep vignette + subtle grid */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,224,184,0.05),transparent_60%),radial-gradient(ellipse_at_center,rgba(0,0,0,0.5),transparent_70%)]" aria-hidden />
-          <div className="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:22px_22px]" aria-hidden />
-          {/* shimmer */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-56 md:h-64 bg-[linear-gradient(110deg,transparent,rgba(34,197,94,0.10),transparent)] bg-[length:200%_100%] animate-shimmer" aria-hidden />
+          {/* Neon shards background */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6),transparent_70%)]" aria-hidden />
+          <div className="absolute inset-0 [background-image:repeating-linear-gradient(45deg,rgba(0,224,184,0.06)_0px,rgba(0,224,184,0.06)_2px,transparent_2px,transparent_8px),repeating-linear-gradient(-45deg,rgba(127,0,255,0.06)_0px,rgba(127,0,255,0.06)_2px,transparent_2px,transparent_10px)] opacity-60" aria-hidden />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(25,245,159,0.12),transparent_55%)]" aria-hidden />
         </div>
-        {/* Central interaction locus */}
-        <div className="relative z-10 text-center px-6">
-          <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-4xl md:text-5xl font-bold tracking-tight">
-            ALSS: Advanced Link Security Scanner
-          </motion.h1>
-          <p className="mt-3 max-w-2xl mx-auto text-base md:text-lg text-foreground/90">
-            The Eye of the Digital Storm. Uncover the Unseen.
-          </p>
-          <div className="mt-10" />
-        </div>
-        {/* Edge hints */}
-        <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/50">Scan File</div>
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/50">AI Insights</div>
+        <div className="custom-container relative z-10 grid w-full items-center gap-10 py-16 md:grid-cols-2">
+          <div>
+            <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-4xl md:text-5xl font-bold leading-tight">
+              Advanced Link Security Scanner
+            </motion.h1>
+            <p className="mt-3 max-w-2xl text-base md:text-lg text-muted-foreground">
+              AI‑Powered Threat Detection
+            </p>
+            <div className="mt-6 max-w-xl">
+              <UrlForm variant="hero" hideLabel />
+            </div>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-xl border border-border/60 bg-card/70 p-4 text-center">
+                <Zap className="mx-auto h-5 w-5 text-emerald-400" />
+                <div className="mt-2 text-xs text-muted-foreground">Real‑time Threat Detection</div>
+              </div>
+              <div className="rounded-xl border border-border/60 bg-card/70 p-4 text-center">
+                <ShieldAlert className="mx-auto h-5 w-5 text-emerald-400" />
+                <div className="mt-2 text-xs text-muted-foreground">Phishing Protection</div>
+              </div>
+              <div className="rounded-xl border border-border/60 bg-card/70 p-4 text-center">
+                <Bug className="mx-auto h-5 w-5 text-emerald-400" />
+                <div className="mt-2 text-xs text-muted-foreground">Malware Analysis</div>
+              </div>
+            </div>
+          </div>
+          <div className="relative grid place-items-center">
+            <NeonShield className="w-[60vw] max-w-[420px] md:w-auto" />
+          </div>
         </div>
       </section>
 
