@@ -13,48 +13,39 @@ import ALSSCore from "@/components/visuals/alss-core"
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="relative overflow-hidden rounded-xl border border-border p-10 md:p-12 min-h-[360px] md:min-h-[520px] flex items-center">
+      <section className="relative overflow-hidden rounded-2xl border border-border p-0 min-h-[82vh] md:min-h-[92vh] flex items-center justify-center">
         <div className="absolute inset-0 -z-10">
-          <Image
-            src="/hero.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-left md:object-center opacity-70 saturate-125 contrast-110 brightness-110 blur-[0.5px] md:blur-[1px]"
-          />
-          {/* Living fiber canvas */}
-          <ALSSCore className="absolute inset-0 opacity-80 pointer-events-none [mix-blend-screen]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-background/40 to-background" aria-hidden />
-          {/* shimmer overlay */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-56 md:h-64 bg-[linear-gradient(110deg,transparent,rgba(34,197,94,0.10),transparent)] bg-[length:200%_100%] animate-shimmer"
-            aria-hidden
-          />
-          <div className="pointer-events-none absolute inset-0 bg-hero-radial opacity-35" aria-hidden />
-          <div
-            className="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:22px_22px]"
-            aria-hidden
-          />
+          {/* Organic living canvas */}
+          <ALSSCore className="absolute inset-0 opacity-[0.9] pointer-events-none [mix-blend-screen]" />
+          {/* Deep vignette + subtle grid */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,224,184,0.05),transparent_60%),radial-gradient(ellipse_at_center,rgba(0,0,0,0.5),transparent_70%)]" aria-hidden />
+          <div className="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:22px_22px]" aria-hidden />
+          {/* shimmer */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-56 md:h-64 bg-[linear-gradient(110deg,transparent,rgba(34,197,94,0.10),transparent)] bg-[length:200%_100%] animate-shimmer" aria-hidden />
         </div>
-        <div>
-          <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-3xl md:text-4xl font-bold leading-tight md:leading-[1.1] tracking-tight drop-shadow-glow">
-            Advanced Link Security Scanner
+        {/* Central interaction locus */}
+        <div className="relative z-10 text-center px-6">
+          <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-4xl md:text-5xl font-bold tracking-tight">
+            ALSS
           </motion.h1>
-          <p className="mt-3 max-w-2xl text-base md:text-lg text-muted-foreground">
+          <p className="mt-3 max-w-2xl mx-auto text-base md:text-lg text-foreground/90">
             Scan Smarter. Stay Safer. Powered by AI.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild className="shadow-brand hover:shadow-brand/70 transition-shadow">
-              <Link href="#scan">Scan Now</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/learn">Learn More</Link>
-            </Button>
-            <Button asChild variant="secondary">
-              <Link href="#file-scan">Scan File</Link>
-            </Button>
+          <div className="mt-10">
+            <button
+              aria-label="Activate scan"
+              onClick={() => { try { (window as any).ALSSCore?.absorb?.() } catch {}; const t=document.getElementById('scan'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+              className="group relative h-36 w-36 md:h-44 md:w-44 rounded-full border border-accent/30 bg-accent/5 backdrop-blur-md shadow-[0_0_40px_rgba(0,224,184,0.15)] hover:shadow-[0_0_60px_rgba(0,224,184,0.25)] transition-shadow"
+            >
+              <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.75),transparent_60%)] opacity-80 mix-blend-screen" />
+              <span className="relative z-10 text-xs tracking-wider text-muted-foreground group-hover:text-foreground">Click or Scroll to Scan</span>
+            </button>
           </div>
+        </div>
+        {/* Edge hints */}
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/50">Scan File</div>
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-muted-foreground/50">AI Insights</div>
         </div>
       </section>
 
