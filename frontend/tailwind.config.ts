@@ -75,10 +75,6 @@ const config: Config = {
           "72%": { opacity: "0.58" },
           "85%": { opacity: "0.5" },
         },
-        burst: {
-          "0%": { transform: "scale(0.7)", opacity: "0.45" },
-          "100%": { transform: "scale(1.3)", opacity: "0" },
-        },
       },
       animation: {
         glow: "glow-pulse 2.5s ease-in-out infinite",
@@ -86,7 +82,6 @@ const config: Config = {
         particles: "particles 3.5s ease-in-out infinite",
         beam: "beam 3s linear infinite",
         flicker: "flicker 4.5s ease-in-out infinite",
-        burst: "burst 0.6s ease-out 1",
       },
       boxShadow: {
         brand: "0 12px 40px -12px rgba(34, 197, 94, 0.35)",
