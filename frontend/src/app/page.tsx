@@ -1,13 +1,6 @@
 "use client"
 
-import Link from "next/link"
-import Image from "next/image"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import UrlForm from "@/components/scan/url-form"
-import FileForm from "@/components/scan/file-form"
-import { Shield, FileText, Sparkles, CheckCircle2 } from "lucide-react"
 import NeonParticles from "@/components/visuals/neon-particles"
 import ShieldCanvas from "@/components/ShieldCanvas"
 import ScanForm from "@/components/ScanForm"
@@ -16,7 +9,7 @@ export default function HomePage() {
   return (
     <div className="space-y-10">
       <section className="relative overflow-hidden rounded-none border-none p-0 min-h-screen flex items-center justify-center bg-hero-gradient">
-        <div className="absolute inset-0 -z-10">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full w-screen -z-10">
           <div className="absolute inset-0 bg-noise opacity-[0.35]" aria-hidden />
           <div className="absolute inset-0 [background:radial-gradient(circle_at_center,rgba(0,194,255,0.12),transparent_55%)]" aria-hidden />
           <div className="absolute inset-0 [background:linear-gradient(120deg,rgba(0,194,255,0.12)_0%,transparent_40%,rgba(255,0,255,0.12)_70%,transparent_100%)] [background-size:200%_200%] animate-beam" aria-hidden />
