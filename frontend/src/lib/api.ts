@@ -9,6 +9,13 @@ export const API_BASE = (() => {
   }
 })()
 
+// Optional Node (Express) mock backend base URL
+export const NODE_API_BASE: string | null = (() => {
+  const configured = process.env.NEXT_PUBLIC_ALSS_NODE_API_URL
+  if (!configured) return null
+  try { return configured.replace("localhost", "127.0.0.1") } catch { return configured }
+})()
+
 const DEFAULT_TIMEOUT = 12000
 
 async function fetchJSON<T = any>(url: string, init?: RequestInit, timeoutMs = DEFAULT_TIMEOUT): Promise<T> {
@@ -127,6 +134,17 @@ export async function scanUrl(url: string): Promise<URLScanResult> {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url } satisfies URLScanRequest),
+  })
+}
+
+// Simple scan for Node mock backend
+export type SimpleScanResponse = { status: string; details: string }
+export async function scanUrlSimple(url: string): Promise<SimpleScanResponse> {
+  if (!NODE_API_BASE) throw new Error('Node API base not configured')
+  return await fetchJSON(`${NODE_API_BASE}/api/scan`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url }),
   })
 }
 
