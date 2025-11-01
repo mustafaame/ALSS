@@ -6,14 +6,17 @@ import { motion } from "framer-motion"
 import { Shield, Menu, X, History, Settings, Book } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ALSSLogo } from "@/components/brand/logo"
+import { usePathname } from "next/navigation"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === "/"
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur">
+    <header className={isHome ? "absolute top-0 z-50 w-full border-b border-transparent bg-transparent" : "sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur"}>
       <div className="custom-container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2" aria-label="ALSS Home">
-          <ALSSLogo />
+          <ALSSLogo className="scale-[1.08] md:scale-110" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
