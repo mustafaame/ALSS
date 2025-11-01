@@ -23,13 +23,33 @@ export default function HomePage() {
           {/* shimmer */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-56 md:h-64 bg-[linear-gradient(110deg,transparent,rgba(34,197,94,0.10),transparent)] bg-[length:200%_100%] animate-shimmer" aria-hidden />
         </div>
+        {/* Bottom glass control bar (hero overlay) */}
+        <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 w-[min(94%,760px)] rounded-xl border border-accent/30 bg-background/70 backdrop-blur-md shadow-[0_0_40px_rgba(25,245,159,0.12)]">
+          <div className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="text-sm font-semibold">ALSS: Advanced Link Security Scanner</div>
+              <div className="text-xs text-muted-foreground">The Eye of the Digital Storm. Uncover the Unseen.</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button asChild size="sm" className="shadow-brand hover:shadow-brand/70">
+                <Link href="#scan">Scan Now</Link>
+              </Button>
+              <Button asChild size="sm" variant="outline">
+                <Link href="/learn">Learn</Link>
+              </Button>
+              <Button asChild size="sm" variant="secondary">
+                <Link href="#file-scan">Scan File</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
         {/* Central interaction locus */}
         <div className="relative z-10 text-center px-6">
           <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="text-4xl md:text-5xl font-bold tracking-tight">
-            ALSS
+            ALSS: Advanced Link Security Scanner
           </motion.h1>
           <p className="mt-3 max-w-2xl mx-auto text-base md:text-lg text-foreground/90">
-            Scan Smarter. Stay Safer. Powered by AI.
+            The Eye of the Digital Storm. Uncover the Unseen.
           </p>
           <div className="mt-10">
             <button
