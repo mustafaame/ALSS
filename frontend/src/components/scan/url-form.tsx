@@ -136,9 +136,10 @@ export default function UrlForm({ className, variant = "default", hideLabel = fa
           <Button type="submit" disabled={!valid || submitting} className={cn(
             "md:w-40",
             variant === "hero" &&
-              "h-11 md:h-12 bg-transparent border border-[#00C2FF]/60 text-[#E6F9FF] hover:border-[#00C2FF] hover:shadow-[0_0_30px_rgba(0,194,255,0.5)]"
+              "relative overflow-hidden h-11 md:h-12 bg-transparent border border-[#00C2FF]/60 text-[#E6F9FF] hover:border-[#00C2FF] hover:shadow-[0_0_30px_rgba(0,194,255,0.5)]"
           ) }>
-            {submitting ? "Scanning..." : variant === "hero" ? "Scan Now" : "Scan"}
+            {submitting ? "Scanning..." : simple ? "Safe ✅" : variant === "hero" ? "Scan Now" : "Scan"}
+            {submitting && <span className="pointer-events-none absolute inset-0 rounded-xl bg-cyan-400/30 animate-burst" />}
           </Button>
         </div>
         <div aria-live="polite" className="sr-only">{submitting ? "Scanning in progress" : "Ready"}</div>
