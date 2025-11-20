@@ -59,10 +59,29 @@ const config: Config = {
           "0%": { backgroundPosition: "0% 50%" },
           "100%": { backgroundPosition: "200% 50%" },
         },
+        particles: {
+          "0%": { transform: "translateY(0)", opacity: "0.4" },
+          "50%": { transform: "translateY(-20px)", opacity: "0.8" },
+          "100%": { transform: "translateY(0)", opacity: "0.4" },
+        },
+        beam: {
+          "0%": { backgroundPosition: "0% 0%" },
+          "100%": { backgroundPosition: "200% 200%" },
+        },
+        flicker: {
+          "0%, 100%": { opacity: "0.45" },
+          "50%": { opacity: "0.6" },
+          "65%": { opacity: "0.52" },
+          "72%": { opacity: "0.58" },
+          "85%": { opacity: "0.5" },
+        },
       },
       animation: {
         glow: "glow-pulse 2.5s ease-in-out infinite",
         shimmer: "shimmer 6s linear infinite",
+        particles: "particles 3.5s ease-in-out infinite",
+        beam: "beam 3s linear infinite",
+        flicker: "flicker 4.5s ease-in-out infinite",
       },
       boxShadow: {
         brand: "0 12px 40px -12px rgba(34, 197, 94, 0.35)",

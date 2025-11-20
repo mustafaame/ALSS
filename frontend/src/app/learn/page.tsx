@@ -1,3 +1,5 @@
+"use client"
+
 import { motion } from "framer-motion"
 import { Shield, Link as LinkIcon, FileWarning } from "lucide-react"
 
